@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Campus Reuse Hub - Login/Signup</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1550439062-609e1531270e') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(5px);
+    }
+
+    .auth-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
+
+    .auth-box h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .form-control, .btn {
+      border-radius: 10px;
+    }
+
+    .toggle-link {
+      text-align: center;
+      margin-top: 1rem;
+      color: #eee;
+      cursor: pointer;
+    }
+
+    .toggle-link:hover {
+      text-decoration: underline;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-box" id="loginBox">
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <input type="email" class="form-control mb-3" id="loginEmail" placeholder="Email" required>
+      <input type="password" class="form-control mb-3" id="loginPassword" placeholder="Password" required>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+    <div class="toggle-link" onclick="toggleForms()">Don't have an account? Sign up</div>
+  </div>
+
+  <div class="auth-box d-none" id="signupBox">
+    <h2>Signup</h2>
+    <form onsubmit="signup(event)">
+      <input type="text" class="form-control mb-3" id="signupName" placeholder="Name" required>
+      <input type="email" class="form-control mb-3" id="signupEmail" placeholder="Email" required>
+      <input type="password" class="form-control mb-3" id="signupPassword" placeholder="Password" required>
+      <button type="submit" class="btn btn-success w-100">Signup</button>
+    </form>
+    <div class="toggle-link" onclick="toggleForms()">Already have an account? Login</div>
+  </div>
+
+  <script>
+    function toggleForms() {
+      document.getElementById('loginBox').classList.toggle('d-none');
+      document.getElementById('signupBox').classList.toggle('d-none');
+    }
+
+    function signup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      localStorage.setItem('user', JSON.stringify({ name, email, password }));
+      alert('Signup successful! Please log in.');
+      toggleForms();
+    }
+
+    function login(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      if (user && user.email === email && user.password === password) {
+        alert('Login successful!');
+        window.location.href = "main.html"; // redirect to your main site
+      } else {
+        alert('Invalid credentials!');
+      }
+    }
+  </script>
+</body>
+</html>
